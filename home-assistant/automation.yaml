@@ -1,0 +1,63 @@
+# Home Assistant automation: presence in the room drives the elevator indicator,
+# and an elevator "ding" plays when the pointer has arrived.
+#
+# Replace the placeholders with YOUR entities:
+#   binary_sensor.presence_sensor    -> occupancy / presence / motion sensor of the room
+#   switch.elevator_indicator_besetzt -> the switch from the ESPHome device ("Besetzt")
+#   media_player.dining_room_speaker -> speaker for the ding (optional, see README)
+#
+# Behaviour: presence -> OCCUPIED immediately; no presence for 5 s -> FREE.
+# New presence within those 5 s cancels the return (mode: restart).
+alias: Elevator Indicator FREI/BESETZT
+description: Pointer follows presence in the room
+mode: restart
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.presence_sensor
+    to: "on"
+  - trigger: state
+    entity_id: binary_sensor.presence_sensor
+    to: "off"
+actions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.presence_sensor
+            state: "on"
+        sequence:
+          - if:
+              - condition: state
+                entity_id: switch.elevator_indicator_besetzt
+                state: "off"
+            then:
+              - action: switch.turn_on
+                target:
+                  entity_id: switch.elevator_indicator_besetzt
+              - delay: { seconds: 2 }   # servo needs 1.5 s
+              # Optional ding. Do NOT add "announce: true" - the HomePod stayed silent with it.
+              - action: media_player.play_media
+                target:
+                  entity_id: media_player.dining_room_speaker
+                data:
+                  media_content_id: media-source://media_source/local/elevator-ding.mp3
+                  media_content_type: music
+    default:
+      - delay: { seconds: 5 }
+      - condition: state
+        entity_id: binary_sensor.presence_sensor
+        state: "off"
+      - if:
+          - condition: state
+            entity_id: switch.elevator_indicator_besetzt
+            state: "on"
+        then:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.elevator_indicator_besetzt
+          - delay: { seconds: 2 }
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.dining_room_speaker
+            data:
+              media_content_id: media-source://media_source/local/elevator-ding.mp3
+              media_content_type: music

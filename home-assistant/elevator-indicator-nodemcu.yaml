@@ -1,0 +1,89 @@
+# ESPHome: Art-deco elevator indicator with servo pointer (FREI / BESETZT)
+# Hardware: NodeMCU (ESP8266, ESP-12E, CH340) + MG90S-Servo an D5, 5 V über USB-Netzteil
+# Servo-Kabel: braun = G, rot = VIN, orange = D5
+
+esphome:
+  name: elevator-indicator
+  friendly_name: Elevator Indicator
+
+esp8266:
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+  encryption:
+    key: !secret api_key
+ota:
+  - platform: esphome
+logger:
+
+output:
+  - platform: esp8266_pwm
+    id: servo_pwm
+    pin: D5
+    frequency: 50 Hz
+
+servo:
+  - id: zeiger
+    output: servo_pwm
+    transition_length: 1.5s   # langsam schwenken wie ein echter Hotelzeiger
+    auto_detach_time: 2s      # danach stromlos -> kein Brummen/Zittern
+
+# Kalibrierung direkt in HA (Gerät -> Konfiguration), -100..100 = ca. -90°..+90°
+# Auf der Skala liegen FREI und BESETZT je ca. 57° neben der Mitte -> ca. ±63
+number:
+  - platform: template
+    name: "Zeiger FREI"
+    id: winkel_frei
+    entity_category: config
+    min_value: -100
+    max_value: 100
+    step: 1
+    initial_value: -63
+    optimistic: true
+    restore_value: true
+    set_action:
+      - if:
+          condition:
+            switch.is_off: besetzt
+          then:
+            - servo.write:
+                id: zeiger
+                level: !lambda 'return x / 100.0;'
+  - platform: template
+    name: "Zeiger BESETZT"
+    id: winkel_besetzt
+    entity_category: config
+    min_value: -100
+    max_value: 100
+    step: 1
+    initial_value: 63
+    optimistic: true
+    restore_value: true
+    set_action:
+      - if:
+          condition:
+            switch.is_on: besetzt
+          then:
+            - servo.write:
+                id: zeiger
+                level: !lambda 'return x / 100.0;'
+
+switch:
+  - platform: template
+    name: "Besetzt"
+    id: besetzt
+    icon: mdi:elevator-passenger
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    turn_on_action:
+      - servo.write:
+          id: zeiger
+          level: !lambda 'return id(winkel_besetzt).state / 100.0;'
+    turn_off_action:
+      - servo.write:
+          id: zeiger
+          level: !lambda 'return id(winkel_frei).state / 100.0;'

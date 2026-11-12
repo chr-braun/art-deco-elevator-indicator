@@ -1,0 +1,348 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Elevator Indicator – Bauanleitung</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: eine Lesespalte, nummerierte Bauschritte mit großen Bildern; Bildseite = Papier, Text = Tinte, Messing nur für Nummern und Marken */
+:root{
+  --bg:#f3f1ec; --paper:#fbfaf7; --fg:#241f1a; --muted:#6b6258; --line:#d9d2c5;
+  --brass:#9a7416; --brass-soft:#efe3c3; --teal:#1f5f6b; --teal-soft:#dfeef0; --warn:#a3321f; --warn-soft:#f8e4df;
+  --display:'Limelight','Georgia',serif; --body:'Source Sans 3',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#17140f; --paper:#1f1b15; --fg:#ece6da; --muted:#a79d8e; --line:#3a332a;
+  --brass:#d6a93a; --brass-soft:#3a2f15; --teal:#6fc0cf; --teal-soft:#16333a; --warn:#f08b76; --warn-soft:#3b1d17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17140f; --paper:#1f1b15; --fg:#ece6da; --muted:#a79d8e; --line:#3a332a;
+  --brass:#d6a93a; --brass-soft:#3a2f15; --teal:#6fc0cf; --teal-soft:#16333a; --warn:#f08b76; --warn-soft:#3b1d17; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto;min-width:0}
+header.top{padding:48px 0 28px;border-bottom:2px solid var(--brass)}
+header.top p.k{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:0 0 10px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,6vw,54px);line-height:1.08;margin:0 0 14px;text-wrap:balance}
+header.top p.l{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 28px;margin:28px 0 0;padding:0}
+.facts div{border-top:1px solid var(--line);padding-top:8px;min-width:0}
+.facts dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:2px 0 0;font-weight:600}
+nav.toc{margin:30px 0 8px;padding:18px 20px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+nav.toc h2{font-size:15px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:var(--muted);font-weight:500}
+nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:4px 24px;counter-reset:t}
+nav.toc li{counter-increment:t;min-width:0}
+nav.toc a{color:var(--fg);text-decoration:none;display:block;padding:3px 0}
+nav.toc a::before{content:counter(t);font-family:var(--mono);font-size:13px;color:var(--brass);display:inline-block;width:1.9em}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--teal);text-decoration:underline;outline:none}
+section.step{margin-top:56px;scroll-margin-top:16px}
+section.step>h2{display:flex;gap:14px;align-items:baseline;font-size:clamp(23px,3.4vw,30px);line-height:1.2;margin:0 0 6px;text-wrap:balance}
+section.step>h2 .n{font-family:var(--mono);font-weight:500;font-size:.62em;color:var(--paper);background:var(--brass);border-radius:6px;padding:2px 9px;flex:none;transform:translateY(-3px)}
+p.lead{color:var(--muted);margin:0 0 18px;max-width:66ch}
+.need{display:flex;flex-wrap:wrap;gap:6px 8px;margin:0 0 18px;padding:0;list-style:none;align-items:center}
+.need::before{content:"Du brauchst";font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+.need li{font-size:14.5px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:1px 12px}
+ol.do{margin:14px 0;padding-left:0;list-style:none;counter-reset:d;display:grid;gap:10px}
+ol.do>li{counter-increment:d;position:relative;padding-left:40px;min-width:0}
+ol.do>li::before{content:counter(d);position:absolute;left:0;top:1px;width:27px;height:27px;border-radius:50%;border:1.5px solid var(--brass);color:var(--brass);text-align:center;font-family:var(--mono);font-size:14px;line-height:24px}
+figure{margin:20px 0 22px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:9px 14px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+figcaption b{color:var(--fg);font-family:var(--mono);font-weight:500;font-size:13px;margin-right:6px}
+.note,.warn,.info{border-radius:8px;padding:12px 16px;margin:16px 0;border-left:4px solid}
+.note{background:var(--brass-soft);border-color:var(--brass)}
+.warn{background:var(--warn-soft);border-color:var(--warn)}
+.info{background:var(--teal-soft);border-color:var(--teal)}
+.note b.t,.warn b.t,.info b.t{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.note p,.warn p,.info p{margin:0}
+.note p+p,.warn p+p,.info p+p{margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper);margin:16px 0}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+code,pre{font-family:var(--mono);font-size:14px}
+code{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:14px 0}
+pre code{border:none;padding:0;background:none}
+.check{list-style:none;padding:0;margin:14px 0;display:grid;gap:8px}
+.check li{padding-left:34px;position:relative}
+.check li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border:2px solid var(--brass);border-radius:4px}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+a{color:var(--teal)}
+a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@media (max-width:560px){body{font-size:16px}section.step>h2{flex-direction:column;gap:6px}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <p class="k">Laser · 3D-Druck · Home Assistant</p>
+  <h1>Elevator Indicator</h1>
+  <p class="l">Historische Stockwerksanzeige im Art déco, die statt der Etagen FREI oder BESETZT zeigt (zum Beispiel über einer Tür). Ein Servo schwenkt den Zeiger zwischen FREI und BESETZT, gesteuert von einem Präsenzmelder. Diese Anleitung führt dich vom Laserschnitt bis zur Wand.</p>
+  <dl class="facts">
+    <div><dt>Größe</dt><dd>366 × 275 mm, 38 mm tief</dd></div>
+    <div><dt>Holz</dt><dd>4 mm Sperrholz, 3 Teile</dd></div>
+    <div><dt>Druck</dt><dd>Kästchen + 4 Hülsen, PETG/ASA</dd></div>
+    <div><dt>Strom</dt><dd>USB-Netzteil 5 V</dd></div>
+  </dl>
+  <div class="note"><b class="t">Zwei Varianten der Montage</b><p>Die Schritte 6, 12 und 13 beschreiben die ursprüngliche Variante mit Abstandshülsen und Schrauben von vorn (<code>3d-print/legacy/</code>). Neuer und im README beschrieben ist die Montage ohne Schrauben von vorn: Hülsen als Schlüssellöcher (<code>hook-sleeves-4x.stl</code>), Wandschrauben nach <code>laser/wall-hook-drill-template.svg</code>, Deckel hinten (<code>lid-nodemcu.stl</code>) und ein NodeMCU statt D1 mini.</p></div>
+</header>
+
+<nav class="toc" aria-label="Inhalt">
+  <h2>Bauschritte</h2>
+  <ol>
+    <li><a href="#s1">Teile und Werkzeug</a></li>
+    <li><a href="#s2">Lasern</a></li>
+    <li><a href="#s3">Oberfläche</a></li>
+    <li><a href="#s4">Drehpunktloch aufbohren</a></li>
+    <li><a href="#s5">Blende aufleimen</a></li>
+    <li><a href="#s6">Druckteile drucken</a></li>
+    <li><a href="#s7">Elektronik am Tisch testen</a></li>
+    <li><a href="#s8">Verdrahten</a></li>
+    <li><a href="#s9">Servo ins Kästchen</a></li>
+    <li><a href="#s10">Trockenprobe und Kästchen kleben</a></li>
+    <li><a href="#s11">Zeiger montieren</a></li>
+    <li><a href="#s12">Hülsen ankleben</a></li>
+    <li><a href="#s13">An die Wand schrauben</a></li>
+    <li><a href="#s14">Präsenzmelder und Automation</a></li>
+    <li><a href="#s15">Checkliste und Fehlersuche</a></li>
+  </ol>
+</nav>
+
+<section class="step" id="s1">
+  <h2><span class="n">1</span>Teile und Werkzeug</h2>
+  <p class="lead">Sechs Gruppen von Teilen ergeben die fertige Anzeige. Die Dateien liegen im Repository (laser/, 3d-print/, home-assistant/).</p>
+  <figure><img src="images/b00_teile.png" alt="Alle Teile im Überblick" loading="lazy"><figcaption><b>Bild 0</b>Alle Teile im Überblick</figcaption></figure>
+  <div class="tw"><table>
+    <tr><th>Material</th><th>Wofür</th></tr>
+    <tr><td>Sperrholz 4 mm, 2 Platten à 380 × 290 mm</td><td>Grundplatte, Blende, Zeiger, Rosette</td></tr>
+    <tr><td>Holzleim D3, 2K-Epoxid oder Montagekleber</td><td>Holz auf Holz / Druckteile auf Holz</td></tr>
+    <tr><td>Beize Nussbaum, Goldwachs, Hartwachsöl oder Klarlack matt</td><td>Oberfläche</td></tr>
+    <tr><td>D1 mini, Servo MG90S, Elko 470–1000 µF, 3 Jumperkabel F2M</td><td>Elektronik</td></tr>
+    <tr><td>Micro-USB-Kabel (flach, 3–5 m), USB-Netzteil 5 V / 2 A, Kabelkanal</td><td>Strom</td></tr>
+    <tr><td>4 Messing-Halbrundschrauben 4 × 70, 4 Dübel Ø 6 × 30–35</td><td>Wandbefestigung</td></tr>
+    <tr><td>Präsenzmelder (Aqara FP300, Zigbee)</td><td>Erkennt, ob jemand im Raum ist</td></tr>
+  </table></div>
+  <ul class="need"><li>Forstnerbohrer 12 mm</li><li>Bohrer 3, 6 und ca. 8 mm</li><li>Zwingen</li><li>Schleifpapier K240</li><li>Lötkolben</li><li>Schlagbohrmaschine</li><li>Wasserwaage</li><li>Leitungssucher</li></ul>
+  <div class="note"><b class="t">Kontrolliere beim Kauf</b><p>Der Servo MG90S ist die Grundlage der Druckdateien. Messe ihn nach, sobald er da ist (Schritt 9). Manche Händler geben „90°“ im Datenblatt an. Der Zeiger braucht etwa 115° Schwenkweg, prüfe vor dem Bestellen, ob der Servo das schafft.</p></div>
+</section>
+
+<section class="step" id="s2">
+  <h2><span class="n">2</span>Lasern</h2>
+  <p class="lead">Zwei Bögen mit je 378 × 288 mm. Schwarz ist Flächengravur, Rot ist Schnitt. Erst gravieren, dann schneiden, die Platte dabei nicht bewegen.</p>
+  <ul class="need"><li>laser/01_base-plate.svg</li><li>laser/02_bezel-pointer.svg</li><li>xTool M2</li></ul>
+  <ol class="do">
+    <li>Mach einen Testschnitt am Reststück: Schnitt geht durch? Gravurtiefe passt? Der Strahlenkranz ist eine große Gravurfläche und dauert.</li>
+    <li>Bogen 1 (Grundplatte) lasern.</li>
+    <li>Bogen 2 lasern. Er enthält Blende, Zeiger und Rosette. Zeiger und Rosette liegen im Fenster der Blende, damit kein Holz verschwendet wird.</li>
+    <li>Brandränder mit K240 leicht abschleifen, besonders an den kleinen Zeigerteilen.</li>
+  </ol>
+  <div class="info"><b class="t">Zeigerloch</b><p>Das Nabenloch des Zeigers ist im Laser-SVG nur 5,3 mm groß. In Schritt 11 wird es auf den Durchmesser des Servo-Horns aufgebohrt. Alternativ setzt du das Nabenloch in der SVG-Datei vor dem Lasern direkt auf Hub-Ø + 0,3 mm (meist 8 mm).</p></div>
+</section>
+
+<section class="step" id="s3">
+  <h2><span class="n">3</span>Oberfläche</h2>
+  <p class="lead">Die Grundplatte wird dunkel, die Blende bleibt hell, Krone, Zeiger und Rosette bekommen Gold.</p>
+  <figure><img src="images/b02_oberflaeche.png" alt="oberflaeche" loading="lazy"><figcaption><b>Bild 1</b>So sollen die Teile aussehen, Reihenfolge rechts</figcaption></figure>
+  <ul class="need"><li>Beize</li><li>K240</li><li>Goldwachs</li><li>Hartwachsöl / Klarlack</li><li>Malerband</li></ul>
+  <ol class="do">
+    <li>Klebe die Leimflächen mit Malerband ab: die Rückseite der Blende und den Bereich der Grundplatte, auf den die Blende kommt. Beize und Öl wirken wie eine Trennschicht und der Leim hält dort später nicht.</li>
+    <li>Grundplatte mit Nussbaum-Beize streichen, kurz einwirken lassen, abwischen, trocknen lassen.</li>
+    <li>Mit K240 vorsichtig überschleifen. Die Fläche wird heller, die tiefere Gravur bleibt dunkel.</li>
+    <li>Goldwachs mit dem Finger auf Krone, Zeiger und Rosette auftragen und polieren.</li>
+    <li>Alle Teile mit Hartwachsöl oder mattem Klarlack versiegeln, am Ende Malerband entfernen.</li>
+  </ol>
+</section>
+
+<section class="step" id="s4">
+  <h2><span class="n">4</span>Drehpunktloch aufbohren</h2>
+  <p class="lead">Der Servo kommt hinter die Grundplatte. Sein Wellenbund steckt später im Drehpunktloch, deshalb wird es von 5,3 auf 12 mm vergrößert. Mach das vor dem Verleimen, solange die Platte flach liegt.</p>
+  <figure><img src="images/b03_bohren.png" alt="bohren" loading="lazy"><figcaption><b>Bild 2</b>Vorher Ø 5,3 mm, nachher Ø 12 mm, Maßstab 13 : 1</figcaption></figure>
+  <ul class="need"><li>Forstnerbohrer 12 mm</li><li>Restbrett</li><li>Zwingen</li></ul>
+  <ol class="do">
+    <li>Platte mit der Gravurseite nach oben auf ein Restbrett legen und festspannen.</li>
+    <li>Die Spitze des Forstnerbohrers in das vorhandene Loch setzen.</li>
+    <li>Langsam und mit wenig Druck bohren. Sperrholz reißt an der Austrittsseite gern aus, das Restbrett darunter verhindert das.</li>
+    <li>Prüfe das Loch mit dem Wellenbund des Servos (Ø ca. 11,5 mm). Er soll leicht, aber ohne Spiel hineinpassen.</li>
+  </ol>
+  <div class="note"><b class="t">Kein Forstner da</b><p>Mit 3 mm vorbohren und mit Raspel oder Konusbohrer auf 12 mm erweitern. Die dunklen Gravurringe liegen weit außen (Ø 32 mm) und werden nicht berührt.</p></div>
+</section>
+
+<section class="step" id="s5">
+  <h2><span class="n">5</span>Blende aufleimen</h2>
+  <p class="lead">Die vier Befestigungslöcher sind Passstifte: mit Schrauben als Stiften sitzt die Blende exakt.</p>
+  <figure><img src="images/b04_verleimen.png" alt="verleimen" loading="lazy"><figcaption><b>Bild 3</b>Die Grundplatte steht rundum 3 mm vor, so entsteht die gestufte Kante</figcaption></figure>
+  <ul class="need"><li>Holzleim D3</li><li>4 Schrauben M4 als Passstifte</li><li>Zwingen + Brettchen</li><li>feuchtes Tuch</li></ul>
+  <ol class="do">
+    <li>Probe ohne Leim: Blende auflegen, vier Schrauben durch alle Löcher stecken. Alles muss deckungsgleich sitzen.</li>
+    <li>Leim dünn auf die Rückseite der Blende geben, nicht bis an den Fensterrand. Sonst quillt er in die Gravur.</li>
+    <li>Zusammenstecken, mit den Schrauben ausrichten, leicht pressen.</li>
+    <li>Mindestens eine Stunde pressen, besser über Nacht. Herausgequollenen Leim sofort mit feuchtem Tuch entfernen.</li>
+  </ol>
+  <div class="warn"><b class="t">Reihenfolge</b><p>Kästchen und Hülsen erst ankleben, wenn die Blende trocken ist. Die Platte muss beim Pressen flach liegen.</p></div>
+</section>
+
+<section class="step" id="s6">
+  <h2><span class="n">6</span>Druckteile drucken</h2>
+  <p class="lead">Während der Leim trocknet, kann der Drucker laufen: ein Servo-Kästchen und vier Abstandshülsen.</p>
+  <ul class="need"><li>servo-box-nodemcu.stl</li><li>lid-nodemcu.stl</li><li>hook-sleeves-4x.stl</li><li>PETG oder ASA</li><li>OrcaSlicer</li></ul>
+  <div class="tw"><table>
+    <tr><th>Einstellung</th><th>Wert</th></tr>
+    <tr><td>Material</td><td>PETG oder ASA. PLA geht, wird über der Tür aber warm und weich.</td></tr>
+    <tr><td>Lage</td><td>So lassen, wie die Dateien kommen. Kästchen mit der geschlossenen Vorderseite aufs Bett, Hülsen stehend.</td></tr>
+    <tr><td>Stützen</td><td>Keine nötig</td></tr>
+    <tr><td>Schicht / Wände / Füllung</td><td class="num">0,2 mm · 3 Wände · 20–25 %</td></tr>
+    <tr><td>Maße</td><td class="num">Kästchen 94 × 52 × 24 mm, Hülsen Ø 16 × 24 mm, Loch Ø 4,7 mm</td></tr>
+  </table></div>
+  <div class="note"><b class="t">Vor dem Druck</b><p>Die Datei ist für diese Servo-Maße gerechnet: Welle 6,0 mm vom Ende, Lochabstand der Laschen 27,8 mm, Laschen 4 mm unter der Oberkante. Wenn dein Servo abweicht, passe die Konstanten oben in <code>source/druck.py</code> bzw. <code>druck_nodemcu.py</code> an und erzeuge die STL neu (<code>python3 druck_nodemcu.py &lt;Zielordner&gt;</code>, benötigt <code>trimesh</code>, <code>manifold3d</code>, <code>numpy</code>).</p></div>
+</section>
+
+<section class="step" id="s7">
+  <h2><span class="n">7</span>Elektronik am Tisch testen</h2>
+  <p class="lead">Teste Servo und Software, bevor etwas verklebt ist. So findest du Fehler, solange alles noch offen ist.</p>
+  <ul class="need"><li>D1 mini</li><li>Servo</li><li>Micro-USB</li><li>ESPHome</li><li>elevator-indicator-nodemcu.yaml</li></ul>
+  <ol class="do">
+    <li>Kopiere <code>home-assistant/secrets.yaml.example</code> nach <code>secrets.yaml</code> und trage deine WLAN-Daten ein. Öffne in ESPHome die Datei <code>elevator-indicator-nodemcu.yaml</code> (oder <code>-d1mini.yaml</code>).</li>
+    <li>Flashe den D1 mini zum ersten Mal per USB, <b>ohne angeschlossenen Servo</b>. Danach geht alles per WLAN (OTA).</li>
+    <li>Das Gerät „Elevator Indicator“ erscheint in Home Assistant. Dort gibt es den Schalter „Besetzt“ und zwei Regler „Zeiger FREI“ und „Zeiger BESETZT“ (Bereich −100 bis 100). Die Startwerte sind nur grob, die Endwerte stellst du in Schritt 11 am fertigen Zeiger ein.</li>
+    <li>Strom aus, Servo anschließen (Schritt 8), Strom ein. Der Servo fährt auf FREI. Schalte „Besetzt“ ein und aus und beobachte die Bewegung (1,5 Sekunden, danach stromlos).</li>
+  </ol>
+<pre><code>output:
+  - platform: esp8266_pwm
+    id: servo_pwm
+    pin: D5
+    frequency: 50 Hz
+
+servo:
+  - id: zeiger
+    output: servo_pwm
+    transition_length: 1.5s
+    auto_detach_time: 2s</code></pre>
+  <div class="info"><b class="t">Warum „auto_detach“</b><p>Nach zwei Sekunden wird der Servo stromlos. So brummt und zittert er im Ruhezustand nicht, und der Zeiger bleibt durch die Getriebereibung stehen.</p></div>
+</section>
+
+<section class="step" id="s8">
+  <h2><span class="n">8</span>Verdrahten</h2>
+  <p class="lead">Drei Leitungen und ein Elko. Der D1 mini holt sich den Strom aus dem USB-Kabel und gibt ihn mit 5 V an den Servo weiter.</p>
+  <figure><img src="images/b07_verdrahtung.png" alt="verdrahtung" loading="lazy"><figcaption><b>Bild 4</b>Servo-Kabel: braun an G, rot an 5V, orange an D5; Elko parallel an 5V und G</figcaption></figure>
+  <ul class="need"><li>Lötkolben</li><li>Schrumpfschlauch</li><li>3 Jumperkabel F2M</li><li>Elko 470–1000 µF</li></ul>
+  <ol class="do">
+    <li>Das Stiftende eines Jumperkabels steckt in die Servo-Buchse. Das andere Ende abschneiden und abisolieren.</li>
+    <li>Löte die Enden an die Pads des D1 mini: braun an <b>G</b>, rot an <b>5V</b>, orange an <b>D5</b>. Das ist flacher als Steckverbinder und passt sicher ins 20-mm-Kästchen.</li>
+    <li>Löte den Elko parallel zwischen 5V und G. Der Streifen am Elko markiert Minus und gehört an G.</li>
+    <li>Schrumpfschlauch über die Lötstellen, kein Kontakt zwischen den Leitungen.</li>
+  </ol>
+  <div class="warn"><b class="t">Nie vom 3V3-Pin</b><p>Der Servo wird nur mit 5 V versorgt. Zum Flashen und Programmieren ziehst du den Servo am besten ab.</p></div>
+</section>
+
+<section class="step" id="s9">
+  <h2><span class="n">9</span>Servo ins Kästchen</h2>
+  <p class="lead">Das Kästchen hält den Servo im Drehpunkt und trägt den D1 mini. Von hinten schaust du in den offenen Innenraum.</p>
+  <figure><img src="images/b05_kaestchen.png" alt="kaestchen" loading="lazy"><figcaption><b>Bild 5</b>Ansicht von vorn, die Rückseite scheint durch</figcaption></figure>
+  <figure><img src="images/b06_kaestchen3d.png" alt="kaestchen3d" loading="lazy"><figcaption><b>Bild 6</b>Rendering aus der STL-Datei mit Servo und D1 mini</figcaption></figure>
+  <ol class="do">
+    <li>Miss den Servo nach: Abstand Wellenmitte bis nächste Stirnseite (6,0 mm), Abstand der Laschenlöcher (27,8 mm), Höhe Lasche bis Gehäusedeckel (ca. 4 mm).</li>
+    <li>Servo von innen in den Ausschnitt stecken, das Servo-Kabel zeigt zum rechten Ende. Er sitzt stramm, aber ohne Gewalt. Ist er zu streng, den Ausschnitt innen mit einer Feile um 0,1–0,2 mm erweitern.</li>
+    <li>Mit den beiden Servo-Schrauben von innen in die Sacklöcher schrauben. Länge nur ca. 6 mm, sonst kürzen.</li>
+    <li>D1 mini zwischen die Anschläge legen, USB nach unten zum Kabelschlitz, und mit doppelseitigem Klebeband fixieren.</li>
+    <li>Die Kerbe in der oberen Kante markiert OBEN.</li>
+  </ol>
+</section>
+
+<section class="step" id="s10">
+  <h2><span class="n">10</span>Trockenprobe und Kästchen kleben</h2>
+  <p class="lead">Hier zeigt sich, ob Servo, Loch und Zeiger-Höhe zusammenpassen. Erst danach wird geklebt.</p>
+  <figure><img src="images/b01_schnitt.png" alt="schnitt" loading="lazy"><figcaption><b>Bild 7</b>Schnitt durch die Achse, von der Wand bis zur Rosette. „ca.“-Maße hängen von deinem Servo ab</figcaption></figure>
+  <ol class="do">
+    <li>Kästchen mit Servo ohne Kleber von hinten an die Grundplatte halten. Der Wellenbund muss leicht im 12-mm-Loch sitzen, das Kästchen liegt plan an.</li>
+    <li>Prüfe, wie weit der Zapfen vorne herausragt. Das Horn muss frei über der Vorderkante der Blende liegen (ca. 32 mm). Reicht der Zapfen nicht, hilft eine dünne Unterlegscheibe unter dem Horn.</li>
+    <li>Kerbe nach oben, Kabelschlitz nach unten. Der Wellenbund im Loch richtet das Kästchen von selbst aus.</li>
+    <li>Klebefläche mit grobem Papier anrauen (PETG haftet schlecht). Dann mit 2K-Epoxid oder Montagekleber auf der Rückseite der Grundplatte festkleben und aushärten lassen.</li>
+  </ol>
+</section>
+
+<section class="step" id="s11">
+  <h2><span class="n">11</span>Zeiger montieren</h2>
+  <p class="lead">Der Zeiger sitzt auf dem Servo-Horn. Der Servo steht dabei auf FREI, dann zeigt der Zeiger auch dorthin.</p>
+  <figure><img src="images/b09_zeigerstapel.png" alt="zeigerstapel" loading="lazy"><figcaption><b>Bild 8</b>Schichten von hinten nach vorn, auseinandergezogen</figcaption></figure>
+  <figure><img src="images/b08_zeigerstellung.png" alt="zeigerstellung" loading="lazy"><figcaption><b>Bild 9</b>FREI bei 147°, BESETZT bei 33°, Mitte = Level 0</figcaption></figure>
+  <ul class="need"><li>Servo-Horn</li><li>Horn-Schraube</li><li>Bohrer ca. 8 mm</li><li>2K-Kleber</li><li>Leim</li></ul>
+  <ol class="do">
+    <li>Strom einschalten. Der Servo fährt auf FREI und bleibt dort stehen.</li>
+    <li>Horn so aufstecken, dass sein Arm nach links oben zeigt (147°, dorthin, wo die Spitze auf FREI stehen soll). Horn-Arm auf ca. 15–20 mm kürzen.</li>
+    <li>Horn-Schraube eindrehen, nicht zu fest.</li>
+    <li>Messe Hub-Durchmesser und -Höhe des Horns. Das Zeigerloch auf Hub-Ø + 0,3 mm aufbohren (meist ca. 8 mm), Zeiger in Zwingen spannen.</li>
+    <li>Zeiger mit 2K-Kleber auf den Horn-Arm kleben, Spitze in Richtung des Horn-Arms. Der Hub steckt im Loch.</li>
+    <li>Zuletzt die Rosette mit Leim aufsetzen. Sie deckt Nabe und Schraubenkopf ab, der Schraubenkopf bleibt als Punkt im Loch sichtbar.</li>
+    <li>Feinabstimmung in Home Assistant mit den Reglern „Zeiger FREI“ und „Zeiger BESETZT“. Schalte „Besetzt“ ein und aus und ändere den jeweils aktiven Regler in Schritten von 5–10, später 1–2. Der Zeiger fährt sofort mit. Beim gebauten Original (Stand 12.11.2026, an der Wand) passen <b>FREI = 100</b> und <b>BESETZT = −50</b>. Dein Aufbau liegt je nach Horn-Stellung etwas daneben.</li>
+  </ol>
+  <div class="warn"><b class="t">Hubhöhe</b><p>Der Hub darf nicht höher als 4 mm über den Horn-Arm stehen, sonst liegt die Rosette nicht plan auf dem Zeiger. Dann Rosette weglassen oder das Zeigerloch tiefer ansenken.</p></div>
+  <div class="note"><b class="t">Läuft der Zeiger falsch herum</b><p>Tausche die Vorzeichen der beiden Werte, oder stecke das Horn um einen Zahn versetzt auf. Stößt FREI bei 100 an, bringt ein versetztes Horn mehr Weg.</p></div>
+</section>
+
+<section class="step" id="s12">
+  <h2><span class="n">12</span>Hülsen ankleben</h2>
+  <p class="lead">Die vier Hülsen halten die Anzeige 24 mm von der Wand und lassen das Kästchen dazwischen Platz.</p>
+  <figure><img src="images/b10_rueckseite.png" alt="rueckseite" loading="lazy"><figcaption><b>Bild 10</b>Ansicht von hinten, links und rechts sind gegenüber der Vorderseite vertauscht</figcaption></figure>
+  <ol class="do">
+    <li>Pro Hülse eine Schraube durch Hülse und Befestigungsloch stecken, damit sie senkrecht zur Platte steht.</li>
+    <li>Stirnseite anrauen, Kleber (2K-Epoxid oder Montagekleber) auftragen, ansetzen, aushärten lassen.</li>
+    <li>Das USB-Kabel führst du später durch den Schlitz im Kästchen am Plattenrand nach unten.</li>
+  </ol>
+</section>
+
+<section class="step" id="s13">
+  <h2><span class="n">13</span>An die Wand schrauben</h2>
+  <p class="lead">Mittig über der Tür, Unterkante 5–10 cm über der Zarge. Die Anzeige passt aber überall.</p>
+  <figure><img src="images/b11_wandmontage.png" alt="wandmontage" loading="lazy"><figcaption><b>Bild 11</b>Bohrbild und Schnitt durch eine Schraubstelle</figcaption></figure>
+  <ul class="need"><li>Wasserwaage</li><li>Leitungssucher</li><li>Schlagbohrmaschine</li><li>Bohrer 6 mm</li><li>4 Dübel Ø 6</li></ul>
+  <div class="warn"><b class="t">Zuerst suchen</b><p>Mit dem Leitungssucher nach Kabeln suchen. Über Türen laufen oft Leitungen zum Lichtschalter. In Trockenbau-Wänden brauchst du Hohlraumdübel statt der Dübel für Massivwände.</p></div>
+  <ol class="do">
+    <li>Anzeige mit Wasserwaage anhalten. Durch die Hülsen die vier Löcher anzeichnen. Maße: unten ±162 mm von der Mittelachse, oben ±63,8 mm, 142 mm Höhenunterschied.</li>
+    <li>Löcher bohren, Dübel einsetzen.</li>
+    <li>USB-Kabel am Kästchen einstecken, durch den Schlitz nach unten legen und im Kabelkanal zur Steckdose führen.</li>
+    <li>Schrauben 4 × 70 durch Blende, Grundplatte und Hülse in den Dübel drehen und nur handfest anziehen.</li>
+  </ol>
+</section>
+
+<section class="step" id="s14">
+  <h2><span class="n">14</span>Präsenzmelder und Automation</h2>
+  <p class="lead">Der Melder im Raum meldet „Anwesend“, die Automation setzt den Zeiger.</p>
+  <figure><img src="images/b12_praesenzmelder.png" alt="praesenzmelder" loading="lazy"><figcaption><b>Bild 12</b>Schematische Draufsicht</figcaption></figure>
+  <ol class="do">
+    <li>Melder per Zigbee2MQTT in Home Assistant einbinden und im Raum an Seitenwand oder Decke montieren, so dass der gewünschte Bereich im Erfassungsfeld liegt.</li>
+    <li>Automation aus <code>home-assistant/automation.yaml</code> anlegen und die Entitäten anpassen: <code>binary_sensor.presence_sensor</code>, <code>switch.elevator_indicator_besetzt</code> und optional <code>media_player.dining_room_speaker</code>.</li>
+    <li>Der Ablauf: Anwesenheit (oder Licht an) → sofort BESETZT. 5 Sekunden ohne Anwesenheit und ohne Licht → FREI. Neue Bewegung in diesen 5 Sekunden bricht den Rücklauf ab (<code>mode: restart</code>). Beim Start von Home Assistant wird der Zustand abgeglichen.</li>
+    <li><b>Fahrstuhl-Ping (optional):</b> Lade eine kurze Datei <code>elevator-ding.mp3</code> (eine eigene Datei; sie liegt nicht im Repo) (ca. 3 s) in Home Assistant unter Medien → Lokale Medien hoch. Hänge nach dem Umschalten 2 Sekunden Pause an (der Servo braucht 1,5 s) und dann <code>media_player.play_media</code> mit <code>media-source://media_source/local/elevator-ding.mp3</code> an einen Lautsprecher. Ohne den Zusatz <code>announce</code>: Mit <code>announce: true</code> blieb der HomePod über Music Assistant stumm. Laufende Musik wird vom Ping unterbrochen. Umschließe beides mit der Bedingung „Schalter war vorher aus“ bzw. „war vorher an“, damit es nur beim echten Wechsel klingelt. Der Ping läuft mit der Lautstärke des Lautsprechers, stelle sie moderat ein.</li>
+  </ol>
+  <div class="warn"><b class="t">Durch die Tür</b><p>Radar-Melder können dünne Türen durchdringen. Stelle Erfassungsbereich und Empfindlichkeit so ein, dass Personen im Flur nicht „besetzt“ auslösen. Probe: bei geschlossener Tür im Flur herumgehen und den Sensor beobachten.</p></div>
+</section>
+
+<section class="step" id="s15">
+  <h2><span class="n">15</span>Checkliste und Fehlersuche</h2>
+  <ul class="check">
+    <li>Grundplatte gelasert, Pivot-Loch auf 12 mm aufgebohrt</li>
+    <li>Blende verleimt, Zeiger und Rosette lackiert und gewachst</li>
+    <li>Servo am Tisch getestet, Zeiger fährt FREI und BESETZT</li>
+    <li>Kästchen auf der Grundplatte, Kerbe oben, Kabelschlitz unten</li>
+    <li>Hülsen angeklebt, Schrauben 4 × 70 liegen bereit</li>
+    <li>Leitungssucher benutzt, Dübel gesetzt</li>
+    <li>Automation: Präsenz → BESETZT, 5 s frei → FREI (Ping nur beim echten Wechsel)</li>
+    <li>Zeigerwerte in Home Assistant eingestellt (Original: FREI 100, BESETZT −50)</li>
+  </ul>
+  <div class="tw"><table>
+    <tr><th>Symptom</th><th>Ursache und Abhilfe</th></tr>
+    <tr><td>Zeiger zittert</td><td>Elko fehlt oder ist zu klein, oder das Netzteil ist zu schwach. 1000 µF und 2 A probieren.</td></tr>
+    <tr><td>D1 mini startet beim Schwenken neu</td><td>Spannungseinbruch, gleiche Abhilfe wie oben, Kabel kürzer oder dicker.</td></tr>
+    <tr><td>Zeiger läuft zur falschen Seite</td><td>Vorzeichen der beiden Werte tauschen.</td></tr>
+    <tr><td>Zeiger erreicht die Skala nicht</td><td>Regler in Home Assistant nachstellen, sonst Horn um einen Zahn versetzen.</td></tr>
+    <tr><td>Servo brummt</td><td>Prüfen, ob <code>auto_detach_time</code> in der Konfiguration steht.</td></tr>
+    <tr><td>Sensor flackert</td><td>Erfassungsbereich verkleinern. Flackert der Zeiger trotz 5 s Verzögerung weiter, die Verzögerung auf 10–20 s erhöhen.</td></tr>
+    <tr><td>Anzeige wackelt an der Wand</td><td>Schrauben nur handfest, Dübel prüfen, Hülsen sitzen plan an der Platte.</td></tr>
+  </table></div>
+</section>
+
+<footer>
+  <p>Dateien und Quellcode: im Repository <code>art-deco-elevator-indicator</code> (Lizenz CC BY-NC-SA 4.0). Schriften: Limelight, Cinzel Decorative (SIL OFL). Ornamente selbst konstruiert.</p>
+</footer>
+</div>
+
+</body></html>

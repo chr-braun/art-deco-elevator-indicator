@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elevator Indicator</title>
+<meta name="description" content="Art-deco floor indicator that shows FREI / BESETZT. Laser-cut, 3D-printed, driven by Home Assistant.">
+<style>
+:root{--bg:#f3f1ec;--paper:#fbfaf7;--fg:#241f1a;--muted:#6b6258;--line:#d9d2c5;--brass:#9a7416;--wood:#7a4a24;--teal:#1f5f6b}
+@media(prefers-color-scheme:dark){:root{--bg:#17140f;--paper:#1f1b15;--fg:#ece6da;--muted:#a79d8e;--line:#3a332a;--brass:#d6a93a;--wood:#b9824a;--teal:#6fc0cf}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;padding:0 max(16px,env(safe-area-inset-left))}
+.wrap{max-width:960px;margin:0 auto}
+header{padding:44px 0 12px;border-bottom:2px solid var(--brass);display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+h1{font:400 clamp(34px,6vw,56px)/1.05 Georgia,'Times New Roman',serif;letter-spacing:.02em;margin:0}
+.kicker{font:500 13px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:0 0 8px}
+.lang button{font:inherit;font-size:14px;background:none;border:1px solid var(--line);color:var(--fg);padding:3px 12px;cursor:pointer}
+.lang button[aria-pressed=true]{background:var(--brass);color:var(--paper);border-color:var(--brass)}
+.lang button:first-child{border-radius:6px 0 0 6px}.lang button:last-child{border-radius:0 6px 6px 0}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:center;padding:36px 0}
+@media(max-width:720px){.hero{grid-template-columns:1fr}}
+.lead{font-size:19px;color:var(--muted);margin:0 0 18px}
+.btn{display:inline-block;font:inherit;font-size:15px;padding:8px 16px;border-radius:8px;border:1.5px solid var(--brass);color:var(--fg);background:none;cursor:pointer;text-decoration:none;margin:0 8px 8px 0}
+.btn.p{background:var(--brass);color:var(--paper)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+figure{margin:0}
+#dial{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:14px;background:var(--paper);cursor:pointer}
+figcaption{font-size:14px;color:var(--muted);text-align:center;margin-top:8px}
+#ptr{transform-origin:200px 215px;transition:transform 1.5s cubic-bezier(.45,.05,.3,1)}
+#ding{opacity:0;transition:opacity .2s}#ding.on{animation:ding 1.6s ease-out}
+@keyframes ding{0%{opacity:0;transform:translateY(6px)}15%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-10px)}}
+@media(prefers-reduced-motion:reduce){#ptr{transition:none}#ding.on{animation:none;opacity:1}}
+h2{font:400 28px Georgia,serif;margin:44px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px}.card h3{margin:0 0 4px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:15.5px}
+ol.steps{padding-left:22px}ol.steps li{margin:4px 0}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:15.5px}th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}
+th{font:500 12px ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code{font:14px ui-monospace,monospace;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+footer{margin:56px 0 40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+a{color:var(--teal)}
+[lang=de]{display:none}body.de [lang=en]{display:none}body.de [lang=de]{display:revert}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><p class="kicker">Laser · 3D print · Home Assistant</p><h1>Elevator Indicator</h1></div>
+  <div class="lang" role="group" aria-label="Language"><button id="bEn" aria-pressed="true">EN</button><button id="bDe" aria-pressed="false">DE</button></div>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="lead" lang="en">A historic art-deco floor indicator that shows <b>FREI</b> or <b>BESETZT</b> instead of floors. A servo swings the pointer, Home Assistant drives it from a presence sensor, and an elevator "ding" announces the change.</p>
+    <p class="lead" lang="de">Eine historische Art-déco-Stockwerksanzeige, die statt der Etagen <b>FREI</b> oder <b>BESETZT</b> zeigt. Ein Servo schwenkt den Zeiger, Home Assistant steuert ihn per Präsenzmelder, und ein Fahrstuhl-„Ding“ meldet den Wechsel.</p>
+    <a class="btn p" href="docs/anleitung.html"><span lang="en">Build guide (German)</span><span lang="de">Bauanleitung</span></a>
+    <a class="btn" href="README.md">README</a>
+    <a class="btn" href="PARTS.md"><span lang="en">Parts list</span><span lang="de">Teileliste</span></a>
+    <button class="btn" id="tog"><span lang="en">Switch pointer</span><span lang="de">Zeiger umschalten</span></button>
+  </div>
+  <figure>
+    <svg id="dial" viewBox="0 0 400 280" role="img" aria-label="Animated dial: the pointer swings between FREI and BESETZT" tabindex="0">
+      <defs><radialGradient id="g" cx="50%" cy="77%" r="75%"><stop offset="0" stop-color="#f0d9a0"/><stop offset="1" stop-color="#9a7416"/></radialGradient></defs>
+      <rect x="6" y="6" width="388" height="268" rx="14" fill="#3b2412"/>
+      <path d="M20 255 A180 180 0 0 1 380 255 Z" fill="url(#g)" opacity=".28"/>
+      <g stroke="#e8c978" stroke-width="1.4" opacity=".75" id="rays"></g>
+      <path d="M45 215 A155 155 0 0 1 355 215" fill="none" stroke="#e8c978" stroke-width="3"/>
+      <path d="M62 215 A138 138 0 0 1 338 215" fill="none" stroke="#e8c978" stroke-width="1"/>
+      <g id="ticks" stroke="#e8c978" stroke-width="2"></g>
+      <text x="62" y="124" fill="#f5e4b8" font-family="Georgia,serif" font-size="30" letter-spacing="2" text-anchor="middle" id="tF">FREI</text>
+      <text x="338" y="124" fill="#f5e4b8" font-family="Georgia,serif" font-size="30" letter-spacing="2" text-anchor="middle" id="tB">BESETZT</text>
+      <rect x="118" y="238" width="164" height="22" rx="4" fill="#1b0f07" stroke="#e8c978"/>
+      <text x="200" y="254" fill="#e8c978" font-family="Georgia,serif" font-size="13" letter-spacing="3" text-anchor="middle">ELEVATOR INDICATOR</text>
+      <g id="ptr"><path d="M200 215 L194 205 L200 78 L206 205 Z" fill="#e8c978" stroke="#3b2412" stroke-width="1.2"/><circle cx="200" cy="215" r="13" fill="#e8c978" stroke="#3b2412" stroke-width="2"/><circle cx="200" cy="215" r="4" fill="#3b2412"/></g>
+      <text id="ding" x="200" y="40" fill="#f5e4b8" font-family="Georgia,serif" font-size="26" text-anchor="middle" font-style="italic">ding!</text>
+    </svg>
+    <figcaption lang="en">Click the dial to move the pointer. It swings by itself every few seconds.</figcaption>
+    <figcaption lang="de">Klick auf die Anzeige bewegt den Zeiger. Er schwenkt auch von selbst alle paar Sekunden.</figcaption>
+  </figure>
+</section>
+
+<h2 lang="en">How it works</h2><h2 lang="de">So funktioniert es</h2>
+<div class="grid">
+  <div class="card"><h3>1 · <span lang="en">Presence</span><span lang="de">Präsenz</span></h3><p lang="en">A presence sensor reports someone in the room.</p><p lang="de">Ein Präsenzmelder meldet, dass jemand im Raum ist.</p></div>
+  <div class="card"><h3>2 · Home Assistant</h3><p lang="en">The automation flips a switch on the ESPHome device. Back to FREI after 5 s without presence.</p><p lang="de">Die Automation schaltet den Schalter am ESPHome-Gerät. Nach 5 s ohne Präsenz zurück auf FREI.</p></div>
+  <div class="card"><h3>3 · <span lang="en">Servo pointer</span><span lang="de">Servo-Zeiger</span></h3><p lang="en">An MG90S swings the pointer in 1.5 s, then powers down: silent and no jitter.</p><p lang="de">Ein MG90S schwenkt den Zeiger in 1,5 s und wird dann stromlos: leise, kein Zittern.</p></div>
+  <div class="card"><h3>4 · Ding</h3><p lang="en">2 s later a speaker plays an elevator chime (optional).</p><p lang="de">2 s später spielt ein Lautsprecher einen Fahrstuhl-Gong (optional).</p></div>
+</div>
+
+<h2 lang="en">Build overview</h2><h2 lang="de">Bau im Überblick</h2>
+<ol class="steps">
+  <li lang="en">Laser the base plate and the bezel + pointer from 4 mm plywood (<code>laser/</code>).</li><li lang="de">Grundplatte sowie Blende und Zeiger aus 4 mm Sperrholz lasern (<code>laser/</code>).</li>
+  <li lang="en">Print the servo box, lid and hook sleeves in PETG/ASA (<code>3d-print/</code>).</li><li lang="de">Servo-Kästchen, Deckel und Haken-Hülsen aus PETG/ASA drucken (<code>3d-print/</code>).</li>
+  <li lang="en">Flash an ESP8266 (NodeMCU or D1 mini) with ESPHome (<code>home-assistant/</code>).</li><li lang="de">ESP8266 (NodeMCU oder D1 mini) mit ESPHome flashen (<code>home-assistant/</code>).</li>
+  <li lang="en">Mount servo and pointer, calibrate both pointer positions in Home Assistant.</li><li lang="de">Servo und Zeiger montieren, beide Zeigerstellungen in Home Assistant einstellen.</li>
+  <li lang="en">Hang it on the wall with the drill template and add the automation.</li><li lang="de">Mit der Bohrschablone an die Wand hängen und die Automation anlegen.</li>
+</ol>
+
+<h2 lang="en">Parts at a glance</h2><h2 lang="de">Teile im Überblick</h2>
+<div class="tw"><table>
+<tr><th lang="en">Group</th><th lang="de">Gruppe</th><th lang="en">What</th><th lang="de">Was</th></tr>
+<tr><td lang="en">Wood</td><td lang="de">Holz</td><td>4 mm <span lang="en">plywood, 2 sheets about 380 × 290 mm</span><span lang="de">Sperrholz, 2 Platten ca. 380 × 290 mm</span></td></tr>
+<tr><td>3D</td><td>3D</td><td>PETG / ASA, ~100 g</td></tr>
+<tr><td lang="en">Electronics</td><td lang="de">Elektronik</td><td>NodeMCU (ESP8266) <span lang="en">or</span><span lang="de">oder</span> D1 mini, MG90S servo, 470–1000 µF capacitor, 5 V / 2 A USB supply</td></tr>
+<tr><td lang="en">Sensor</td><td lang="de">Sensor</td><td lang="en">Any presence / occupancy sensor in Home Assistant</td><td lang="de"></td></tr>
+</table></div>
+<p><a href="PARTS.md"><span lang="en">Full parts and tools list →</span><span lang="de">Komplette Teile- und Werkzeugliste →</span></a></p>
+
+<footer>
+  <span lang="en">Licensed under CC BY-NC-SA 4.0. Fonts: Limelight and Cinzel Decorative (SIL OFL 1.1). Made with a laser, a printer and too much coffee.</span>
+  <span lang="de">Lizenz CC BY-NC-SA 4.0. Schriften: Limelight und Cinzel Decorative (SIL OFL 1.1).</span>
+</footer>
+</div>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg',cx=200,cy=215;
+  var rays=document.getElementById('rays');
+  for(var a=-80;a<=80;a+=8){var r=a*Math.PI/180,l=document.createElementNS(NS,'line');
+    l.setAttribute('x1',cx+Math.sin(r)*30);l.setAttribute('y1',cy-Math.cos(r)*30);l.setAttribute('x2',cx+Math.sin(r)*190);l.setAttribute('y2',cy-Math.cos(r)*190);rays.appendChild(l);}
+  var ticks=document.getElementById('ticks');
+  for(var b=-60;b<=60;b+=20){var q=b*Math.PI/180,t=document.createElementNS(NS,'line');
+    t.setAttribute('x1',cx+Math.sin(q)*140);t.setAttribute('y1',cy-Math.cos(q)*140);t.setAttribute('x2',cx+Math.sin(q)*155);t.setAttribute('y2',cy-Math.cos(q)*155);ticks.appendChild(t);}
+  var ptr=document.getElementById('ptr'),ding=document.getElementById('ding'),occ=false,timer;
+  var ANG={free:-57,occ:57};
+  function set(o,quiet){occ=o;ptr.style.transform='rotate('+(o?ANG.occ:ANG.free)+'deg)';
+    if(!quiet){setTimeout(function(){ding.classList.remove('on');void ding.getBBox();ding.classList.add('on');},1500);}}
+  function loop(){clearInterval(timer);timer=setInterval(function(){set(!occ);},5000);}
+  function flip(){set(!occ);loop();}
+  document.getElementById('dial').addEventListener('click',flip);
+  document.getElementById('dial').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
+  document.getElementById('tog').addEventListener('click',flip);
+  set(false,true);loop();
+  function lang(l){document.body.classList.toggle('de',l==='de');document.documentElement.lang=l;
+    document.getElementById('bEn').setAttribute('aria-pressed',l==='en');document.getElementById('bDe').setAttribute('aria-pressed',l==='de');}
+  document.getElementById('bEn').onclick=function(){lang('en');};document.getElementById('bDe').onclick=function(){lang('de');};
+  if((navigator.language||'').slice(0,2)==='de')lang('de');
+})();
+</script>
+</body>
+</html>
